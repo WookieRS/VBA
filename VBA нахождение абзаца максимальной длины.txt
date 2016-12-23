@@ -1,0 +1,29 @@
+'Автор: Маховых Андрей
+'Макрос ищет абзац с самой большой длиной и копирует его в буфер обмена
+'Применяется для нахождения наиболее длинных путей файлов при ошибке создания бэкапа
+
+Private Sub CommandButton1_Click()
+
+Dim longestLine As String
+Dim length As Integer
+Dim maxlength As Integer
+Dim maxlengthText As String
+Dim singleLine As Paragraph
+Dim lineText As String
+Dim objData As New MSForms.DataObject
+
+For Each singleLine In ActiveDocument.Paragraphs
+    lineText = singleLine.Range.Text
+    length = Len(lineText)
+    If length > maxlength Then
+    maxlength = length
+    longestLine = lineText
+    End If
+Next singleLine
+
+maxlengthText = maxlength
+objData.SetText longestLine
+objData.PutInClipboard
+
+MsgBox ("Максимальная длина строки " + maxlengthText + ". Путь скопирован в буфер обмена.")
+End Sub
